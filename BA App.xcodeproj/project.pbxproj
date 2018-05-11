@@ -12,6 +12,7 @@
 		D1ACE9EF208630F600360BE1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1ACE9ED208630F600360BE1 /* Main.storyboard */; };
 		D1ACE9F1208630F700360BE1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1ACE9F0208630F700360BE1 /* Assets.xcassets */; };
 		D1ACE9F4208630F700360BE1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1ACE9F2208630F700360BE1 /* LaunchScreen.storyboard */; };
+		D1F2920120866F5E00F1105F /* PointCloudVertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F2920020866F5E00F1105F /* PointCloudVertex.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		D1ACE9F0208630F700360BE1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D1ACE9F3208630F700360BE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D1ACE9F5208630F700360BE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D1F2920020866F5E00F1105F /* PointCloudVertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointCloudVertex.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				D1ACE9E9208630F600360BE1 /* AppDelegate.swift */,
 				D1ACE9EB208630F600360BE1 /* ViewController.swift */,
+				D1F2920020866F5E00F1105F /* PointCloudVertex.swift */,
 				D1ACE9ED208630F600360BE1 /* Main.storyboard */,
 				D1ACE9F0208630F700360BE1 /* Assets.xcassets */,
 				D1ACE9F2208630F700360BE1 /* LaunchScreen.storyboard */,
@@ -136,6 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1ACE9EC208630F600360BE1 /* ViewController.swift in Sources */,
+				D1F2920120866F5E00F1105F /* PointCloudVertex.swift in Sources */,
 				D1ACE9EA208630F600360BE1 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

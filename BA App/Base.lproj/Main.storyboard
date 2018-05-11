@@ -21,45 +21,80 @@
                             <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2th-cQ-RMi">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </sceneKitView>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nw5-0U-A94">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </arscnView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cI0-yQ-81A">
-                                <rect key="frame" x="16" y="20" width="108" height="30"/>
+                                <rect key="frame" x="16" y="20" width="120" height="45"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="AsL-T7-4jA"/>
-                                    <constraint firstAttribute="width" constant="108" id="OCD-6r-D0Y"/>
+                                    <constraint firstAttribute="height" constant="45" id="AsL-T7-4jA"/>
+                                    <constraint firstAttribute="width" constant="120" id="OCD-6r-D0Y"/>
                                 </constraints>
-                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <state key="normal" title="Start Recording"/>
                                 <connections>
                                     <action selector="startRecording:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NCp-Lu-TMT"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JF9-Pd-QUY">
-                                <rect key="frame" x="253" y="20" width="106" height="30"/>
+                                <rect key="frame" x="239" y="20" width="120" height="45"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="106" id="CIJ-9P-jM7"/>
-                                    <constraint firstAttribute="height" constant="30" id="tQF-S0-vLL"/>
+                                    <constraint firstAttribute="width" constant="120" id="CIJ-9P-jM7"/>
+                                    <constraint firstAttribute="height" constant="45" id="tQF-S0-vLL"/>
                                 </constraints>
-                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <state key="normal" title="Stop Recording"/>
                                 <connections>
                                     <action selector="stopRecording:" destination="BYZ-38-t0r" eventType="touchUpInside" id="inD-Bx-uIx"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mWJ-aq-UT8">
+                                <rect key="frame" x="287" y="606" width="72" height="45"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="1Mg-U7-9nO"/>
+                                    <constraint firstAttribute="width" constant="72" id="6e6-XQ-8LW"/>
+                                </constraints>
+                                <state key="normal" title="RESET"/>
+                                <connections>
+                                    <action selector="resetAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JwG-eB-VrN"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Capturing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LU8-Xh-33S">
+                                <rect key="frame" x="16" y="614" width="200" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="DMm-Vu-Odt"/>
+                                    <constraint firstAttribute="width" constant="200" id="ZiU-fB-EDi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="2th-cQ-RMi" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="0Y2-z2-jW2"/>
+                            <constraint firstItem="LU8-Xh-33S" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="8t9-sI-wq6"/>
                             <constraint firstItem="2th-cQ-RMi" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="F7G-pV-pcH"/>
                             <constraint firstItem="JF9-Pd-QUY" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="G1D-Jy-wNl"/>
+                            <constraint firstItem="nw5-0U-A94" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="NIg-xY-Tdz"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JF9-Pd-QUY" secondAttribute="trailing" constant="16" id="NY7-18-5Da"/>
                             <constraint firstItem="cI0-yQ-81A" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ODp-5e-6RG"/>
                             <constraint firstItem="2th-cQ-RMi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Px3-yJ-ZJk"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="mWJ-aq-UT8" secondAttribute="bottom" constant="16" id="ZPV-AM-8m2"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="mWJ-aq-UT8" secondAttribute="trailing" constant="16" id="grh-yG-22W"/>
+                            <constraint firstItem="nw5-0U-A94" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="iqX-V9-AIL"/>
+                            <constraint firstItem="nw5-0U-A94" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="mjI-bo-QO6"/>
                             <constraint firstItem="cI0-yQ-81A" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="pjj-ZV-JZB"/>
                             <constraint firstItem="2th-cQ-RMi" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="rdK-ho-emc"/>
+                            <constraint firstItem="nw5-0U-A94" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="tds-gU-Icf"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="LU8-Xh-33S" secondAttribute="bottom" constant="28" id="vkg-lf-6Xj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="ARSceneKit" destination="nw5-0U-A94" id="Ghz-3G-Nab"/>
+                        <outlet property="label" destination="LU8-Xh-33S" id="rpP-mD-EeN"/>
                         <outlet property="sceneKit" destination="2th-cQ-RMi" id="dhT-2a-Lt9"/>
                         <outlet property="stopRecroding" destination="JF9-Pd-QUY" id="j72-1s-UnP"/>
                     </connections>

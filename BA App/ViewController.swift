@@ -10,64 +10,74 @@ import UIKit
 import ARKit
 import SceneKit
 
-public enum ShapeType:Int {
-    
-    case Box = 0
-    case Sphere
-    case Pyramid
-    case Torus
-    case Capsule
-    case Cylinder
-    case Cone
-    case Tube
-    
-    // 2
-    static func random() -> ShapeType {
-        let maxValue = Tube.rawValue
-        let rand = arc4random_uniform(UInt32(maxValue+1))
-        return ShapeType(rawValue: Int(rand))!
-    }
-}
-
-
 class ViewController: UIViewController, ARSessionDelegate {
     
-    @IBOutlet weak var sceneKit: SCNView!
-    
-    @IBAction func startRecording(_ sender: Any) {
-        let configuration = ARWorldTrackingConfiguration()
-        session.run(configuration)
-    }
-    
-    @IBOutlet weak var stopRecroding: UIButton!
-    
-    @IBAction func stopRecording(_ sender: Any) {
-        session.pause()
-    }
-    
-    
+    var vectorPoints:[SCNVector3] = []
     var cameraNode: SCNNode!
     var scnScene: SCNScene!
-    let session = ARSession()
+    let configuration = ARWorldTrackingConfiguration()
+    
+    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var sceneKit: SCNView!
+    @IBOutlet weak var ARSceneKit: ARSCNView!
+    @IBOutlet weak var stopRecroding: UIButton!
+    
+    @IBAction func startRecording(_ sender: Any) {
+        self.vectorPoints = []
+        
+        ARSceneKit.isHidden = false
+        
+        ARSceneKit.session.run(configuration)
+        label.text = "capturing"
+    }
+    
+    @IBAction func stopRecording(_ sender: Any) {
+        setupScene()
+        setupCamera()
+        
+        ARSceneKit.isHidden = true
+        
+        ARSceneKit.session.pause()
+        label.text = "paused"
+        if (vectorPoints.count > 2) {
+            let pcNode = self.getNode()
+            pcNode.position = SCNVector3(x: 0, y: 0, z: 0)
+        
+            scnScene.rootNode.addChildNode(pcNode)
+        }
+    }
+    
+    @IBAction func resetAction(_ sender: Any) {
+        for child in scnScene.rootNode.childNodes {
+            child.removeFromParentNode()
+        }
+        self.vectorPoints = []
+        ARSceneKit.session.pause()
+        label.text = "paused"
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        ARSceneKit.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+        
+        ARSceneKit.session.delegate = self
+        ARSceneKit.session.run(configuration)
+        label.text = "capturing"
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+    }
     
     func setupScene() {
         scnScene = SCNScene()
         scnScene.background.contents = UIColor.red
         sceneKit.scene = scnScene
         
-        sceneKit.showsStatistics = true
         sceneKit.allowsCameraControl = true
         sceneKit.autoenablesDefaultLighting = true
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        setupScene()
-        setupCamera()
-        self.session.delegate = self
-        let configuration = ARWorldTrackingConfiguration()
-        session.run(configuration)
     }
     
     func setupCamera() {
@@ -76,58 +86,75 @@ class ViewController: UIViewController, ARSessionDelegate {
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 5)
         
         scnScene.rootNode.addChildNode(cameraNode)
-        //spawnShape()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    //Access the last frame
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        print("session did update")
+        //print("session did update")
         guard let frame = session.currentFrame, let points = frame.rawFeaturePoints?.points else {
             return
         }
         
-        let camera = frame.camera.transform
-        for point in points {
-            //let vektor = multiply(camera, point)
-            let sphere = SCNSphere(radius: 0.05)
-            var geometryNode = SCNNode(geometry: sphere)
-            geometryNode.position = SCNVector3(point)
-            print(point)
-            self.scnScene.rootNode.addChildNode(geometryNode)
+        DispatchQueue.main.async() {
+            for point in points {
+                self.vectorPoints.append(SCNVector3(point))
+            }
         }
     }
     
-    func spawnShape() {
-        // 1
-        var geometry:SCNGeometry
-        // 2
-        switch ShapeType.random() {
-        default:
-            // 3
-            geometry = SCNBox(width: 1.0, height: 1.0, length: 1.0, chamferRadius: 0.0)
-        }
-        // 4
-        let geometryNode = SCNNode(geometry: geometry)
-        // 5
-        scnScene.rootNode.addChildNode(geometryNode)
-    }
-    
-    
-    func multiply( _ matrixA: matrix_float3x3, _ vectorB:vector_float3) -> SCNVector3 {
-        let x:Float = Float((matrixA.columns.0.x * vectorB.x) + (matrixA.columns.1.x * vectorB.y) + (matrixA.columns.2.x * vectorB.z))
-        let y:Float = Float((matrixA.columns.0.y * vectorB.x) + (matrixA.columns.1.y * vectorB.y) + (matrixA.columns.2.y * vectorB.z))
-        let z:Float = Float((matrixA.columns.0.z * vectorB.x) + (matrixA.columns.1.z * vectorB.y) + (matrixA.columns.2.z * vectorB.z))
+    public func getNode() -> SCNNode {
+        let points = self.vectorPoints
+        var vertices = Array(repeating: PointCloudVertex(x: 0,y: 0,z: 0,r: 0,g: 0,b: 0), count: points.count)
         
-        return SCNVector3.init(vector_float3.init(x,y,z))
+        for i in 0...(points.count-1) {
+            let p = points[i]
+            vertices[i].x = Float(p.x)
+            vertices[i].y = Float(p.y)
+            vertices[i].z = Float(p.z)
+            vertices[i].r = Float(0.0)
+            vertices[i].g = Float(1.0)
+            vertices[i].b = Float(1.0)
+        }
+        
+        let node = buildNode(points: vertices)
+        return node
     }
     
-    func prefersStatusBarHidden() -> Bool {
-        return true
+    private func buildNode(points: [PointCloudVertex]) -> SCNNode {
+        let vertexData = NSData(
+            bytes: points,
+            length: MemoryLayout<PointCloudVertex>.size * points.count
+        )
+        let positionSource = SCNGeometrySource(
+            data: vertexData as Data,
+            semantic: SCNGeometrySource.Semantic.vertex,
+            vectorCount: points.count,
+            usesFloatComponents: true,
+            componentsPerVector: 3,
+            bytesPerComponent: MemoryLayout<Float>.size,
+            dataOffset: 0,
+            dataStride: MemoryLayout<PointCloudVertex>.size
+        )
+        let colorSource = SCNGeometrySource(
+            data: vertexData as Data,
+            semantic: SCNGeometrySource.Semantic.color,
+            vectorCount: points.count,
+            usesFloatComponents: true,
+            componentsPerVector: 3,
+            bytesPerComponent: MemoryLayout<Float>.size,
+            dataOffset: MemoryLayout<Float>.size * 3,
+            dataStride: MemoryLayout<PointCloudVertex>.size
+        )
+        let elements = SCNGeometryElement(
+            data: nil,
+            primitiveType: .point,
+            primitiveCount: points.count,
+            bytesPerIndex: MemoryLayout<Int>.size
+        )
+        let pointsGeometry = SCNGeometry(sources: [positionSource, colorSource], elements: [elements])
+
+        return SCNNode(geometry: pointsGeometry)
     }
+    
 }
+
 
